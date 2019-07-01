@@ -5,6 +5,8 @@ module.exports = function (ctx) {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     boot: [
+      'axios',
+      'vuelidate',
     ],
 
     css: [
@@ -38,11 +40,23 @@ module.exports = function (ctx) {
         'QItemSection',
         'QItemLabel',
         'QBreadcrumbs',
-        'QBreadcrumbsEl'
+        'QBreadcrumbsEl',
+        'QInput',
+        'QUploader',
+        'QFooter',
+        'QTabs',
+        'QTab',
+        'QRouteTab',
+        'QDialog',
+        'QCard',
+        'QCardSection',
+        'QCardActions',
+        'QSpace'
       ],
 
       directives: [
-        'Ripple'
+        'Ripple',
+        'ClosePopup'
       ],
 
       // Quasar plugins
@@ -67,7 +81,6 @@ module.exports = function (ctx) {
         cfg.module.rules.push({
           enforce: 'pre',
           test: /\.(js|vue)$/,
-          loader: 'eslint-loader',
           exclude: /node_modules/
         })
       }

@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout view="hHh lpR fFf">
     <q-header elevated  class ="eolHeader">
       <q-toolbar>
         <q-btn
@@ -16,34 +16,43 @@
          <img class ="header-logo" alt="Eurofins logo" src="~assets/eurofins-logo-primary.png">
         </q-toolbar-title>
       </q-toolbar>
-       <q-breadcrumbs active-color="white" style="font-size: 16px" class="float-right">
-          <q-breadcrumbs-el label="Home" icon="home" />
+      <div class="absolute-center text-weight-bold q-toolbar__title">My Requirements App</div>
+       <!-- <q-breadcrumbs active-color="white" style="font-size: 16px" >
+          <q-breadcrumbs-el label="Home" icon="home" clickable />
           <q-breadcrumbs-el label="Dashboard" icon="widgets" />
           <q-breadcrumbs-el label="View My Requirements" />
-        </q-breadcrumbs>
+        </q-breadcrumbs> -->
     </q-header>
 
     <q-drawer
       v-model="leftDrawerOpen"
       bordered
-      content-class="bg-grey-2"
+      content-class="bg-primary"
+      :breakpoint="767"
+      :width="230"
     >
-      <q-list>
-        <q-item clickable tag="a" target="_blank" href="">
+      <q-item-label header class="text-grey-1"> Navigation </q-item-label>
+      <q-list class= "text-accent" v-for ="nav in navs" v-bind:key="nav.Title">
+        <q-item clickable :to="nav.Route" exact>
           <q-item-section avatar>
-            <q-icon name="list" />
+            <q-icon :name="nav.Icon" />
           </q-item-section>
           <q-item-section>
-            <q-item-label>My Requirements</q-item-label>
-            <q-item-label caption>View all requirements posted by you</q-item-label>
+            <q-item-label>{{nav.Title}}</q-item-label>
           </q-item-section>
         </q-item>
       </q-list>
     </q-drawer>
 
-    <q-page-container class="bg-grey-12">
+    <q-page-container class="primary">
       <router-view />
     </q-page-container>
+     <q-footer>
+   <q-tabs>
+        <q-route-tab v-for ="nav in navs" v-bind:key="nav.Title"
+        :to="nav.Route" :icon="nav.Icon" :label="nav.Title" />
+      </q-tabs>
+            </q-footer>
   </q-layout>
 </template>
 
@@ -54,7 +63,21 @@ export default {
   name: 'MyLayout',
   data () {
     return {
-      leftDrawerOpen: this.$q.platform.is.desktop
+      leftDrawerOpen: this.$q.platform.is.desktop,
+      navs: [
+        {
+          Title: 'My Requirements',
+          Icon: 'list',
+          Description: 'View all requirements posted by you',
+          Route: '/requirements'
+        },
+        {
+          Title: 'Add a Requirement',
+          Icon: 'note_add',
+          Description: 'You can add your requirement here',
+          Route: '/'
+        }
+      ]
     }
   },
   methods: {
@@ -62,9 +85,8 @@ export default {
   }
 }
 </script>
-<style>
+<style lang="scss">
 .eolHeader {
-   background-color:#003883;
    height:100px;
    width:100%;
     }
@@ -73,4 +95,14 @@ export default {
       float: left;
       margin: 0.625rem;
     }
-</style>
+    .q-drawer {
+     .q-router-link--exact-active {
+      color: #ffffff;
+    }
+    }
+   @media screen and (min-width: 768px){
+      .q-footer{
+        display: none;
+      }
+    }
+    </style>

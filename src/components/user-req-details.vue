@@ -26,8 +26,7 @@
    <section>
    <q-btn color="secondary" class="float-right" label="Post" type="submit" :loading="submitting && isEdit">
       <template v-slot:loading>
-        <q-spinner-hourglass class="on-left" />
-         ...
+        ...
         </template>
    </q-btn>
    <q-btn color="secondary" v-if="!isEdit" class="float-left" type="reset" label="Clear" @click="clearReq"></q-btn>
@@ -37,7 +36,6 @@
   <q-dialog v-model="confirm" persistent>
       <q-card>
         <q-card-section class="row column items-center">
-          <q-avatar icon="signal_wifi_off" color="secondary" text-color="black" />
           <span class="q-ml-sm">Thank You.Your requirement has been submitted.
           </span>
         </q-card-section>
@@ -47,6 +45,10 @@
         </q-card-actions>
       </q-card>
     </q-dialog>
+    <q-inner-loading :showing="showLoader">
+        <q-spinner-gears size="50px" color="primary" />
+      </q-inner-loading>
+ 
 
 
 </form>
@@ -74,7 +76,8 @@ import { mapActions } from "vuex";
         ischecked: false,
         baseUrl: 'http://localhost:50849/',
         submitting: false,
-        confirm: false
+        confirm: false,
+        showLoader:false
         // requirement: {
         //     id: '',
         //     Title: '',
@@ -102,15 +105,28 @@ import { mapActions } from "vuex";
         if(this.isEdit)
         {
         this.UpdateRequirement(this.requirement)
-       .then(r => 
-       this.confirm = true 
-       )
-       .catch( e=>this.confirm = true)
+       .then(r => {
+        this.submitting = false;
+       this.confirm = true; 
+       this.$emit('closeEdit',true);
+       })
+       .catch(e=> {
+          this.submitting = false;
+          this.confirm = true;
+          this.$emit('closeEdit',true);
+       })
         }
         else {
+        this.showLoader = true;
         this.SaveRequirement(this.requirement)
-       .then(r => this.confirm = true)
-       .catch( e=>this.confirm = true)
+       .then(r => {
+         this.showLoader = false;
+         this.confirm = true;
+         })
+       .catch( e=> {
+         this.showLoader = false;
+         this.confirm = true;
+         })
         }
       }
          },

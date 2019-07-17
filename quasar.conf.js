@@ -55,7 +55,9 @@ module.exports = function (ctx) {
         'QTable',
         'QTh',
         'QTr',
-        'QTd'
+        'QTd',
+        'QSpinnerGears',
+        'QInnerLoading'
       ],
 
       directives: [

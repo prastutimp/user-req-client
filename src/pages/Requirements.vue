@@ -1,7 +1,7 @@
 <template>
 <q-page padding>
 <requirementList v-on:editRequirement="editRequirement"></requirementList>
-    <q-dialog v-model="editReq" persistent>
+    <q-dialog v-model="editReq" v-on: persistent >
       <q-card style="min-width: 400px">
         <q-card-section class="row">
           <div class="text-primary text-h6"> Edit requirement </div>
@@ -10,7 +10,7 @@
            class="float-right" round color="primary" v-close-popup icon="close" />
         </q-card-section>
         <q-card-section>
-         <userReqDetails :isEdit="editReq" :requirement="requirement"></userReqDetails>
+         <userReqDetails :isEdit="editReq" :requirement="requirement" v-on:closeEdit="closeEdit"></userReqDetails>
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -43,7 +43,10 @@ export default {
       editRequirement(value) {
         this.editReq = true
         this.requirement = value
-        console.log(this.requirement)
+      },
+      closeEdit()
+      {
+        this.editReq = false;
       }
     },
   components: {
